@@ -26,3 +26,34 @@ export { useStorage } from "./useStorage";
 export { useEvent, useEventLog } from "./useEvent";
 export { useTopics } from "./useTopics";
 export { useAgentStream, useAgentTask } from "./useAgent";
+
+export {
+  useApp,
+  useAppActions,
+  useAppDiff,
+  useApps,
+  useAppServer,
+  useAppsTrash,
+} from "./useApps";
+export type { UseAppServerOptions } from "./useApps";
+export { useBrowser } from "./useBrowser";
+export {
+  useIntegrationCatalog,
+  useIntegrationMcpStatus,
+  useIntegrationProfile,
+} from "./useIntegration";
+export { useMcpServers } from "./useMcp";
+export { useSkills } from "./useSkills";
+export {
+  useScheduler,
+  useSchedulerRuns,
+  useSchedulerStats,
+} from "./useScheduler";
+export { useFs, useProjectFiles } from "./useFiles";
+export {
+  useClipboard,
+  useDialog,
+  useNotify,
+  usePermissions,
+} from "./useNative";
+export type { UseClipboardResult, UseDialogResult } from "./useNative";

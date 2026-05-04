@@ -47,10 +47,12 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsup && cp src/styles/styles.css dist/styles.css",
+    "build": "pnpm run check:coverage && tsup && cp src/styles/styles.css dist/styles.css",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "check:coverage": "node scripts/check-bridge-coverage.mjs",
+    "refresh:catalog": "node scripts/refresh-catalog.mjs"
   },
   "peerDependencies": {
     "react": ">=18 <20",

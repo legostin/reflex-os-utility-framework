@@ -1,5 +1,5 @@
 import { reflexInvoke } from "./invoke";
-import type { SystemContext } from "./types";
+import type { LogEntry, SystemContext } from "./types";
 
 export type ReflexPanel = "apps" | "memory" | "automations" | "browser" | "settings";
 
@@ -36,10 +36,7 @@ export const system = {
     return reflexInvoke<{ ok: boolean }>("logs.write", params);
   },
   logList(params: { limit?: number; sinceSeq?: number; source?: string; level?: string } = {}) {
-    return reflexInvoke<{ entries: Array<Record<string, unknown>> }>(
-      "logs.list",
-      params,
-    );
+    return reflexInvoke<{ entries: LogEntry[] }>("logs.list", params);
   },
   clipboardRead() {
     return reflexInvoke<{ text: string }>("clipboard.readText", {});

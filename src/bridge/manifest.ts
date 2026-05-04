@@ -1,5 +1,12 @@
 import { reflexInvoke } from "./invoke";
-import type { ManifestAction, ManifestSchedule, ManifestWidget } from "./types";
+import { apps } from "./apps";
+import type {
+  ManifestAction,
+  ManifestSchedule,
+  ManifestWidget,
+  SchedulerRun,
+  SchedulerStats,
+} from "./types";
 
 export const manifest = {
   get() {
@@ -21,8 +28,15 @@ export const actions = {
   delete(actionId: string) {
     return reflexInvoke<{ ok: boolean }>("actions.delete", { actionId });
   },
-  invoke(params: { app_id: string; action_id: string; params?: Record<string, unknown> }) {
-    return reflexInvoke<unknown>("apps.invoke", params);
+  /**
+   * @deprecated Use `apps.invoke` from `bridge/apps`. This method invokes
+   * another app's public action — it does not mutate this app's actions, so
+   * the name in the `actions` namespace is misleading. Kept here only for
+   * backwards compatibility; new code should import from
+   * `reflex-os-utility-framework/bridge` and call `apps.invoke(...)`.
+   */
+  invoke<T = unknown>(params: { app_id: string; action_id: string; params?: Record<string, unknown> }) {
+    return apps.invoke<T>(params);
   },
 } as const;
 
@@ -56,19 +70,13 @@ export const scheduler = {
     return reflexInvoke<{ ok: boolean }>("scheduler.setPaused", params);
   },
   runs(params: { limit?: number; beforeTs?: number; appId?: string; includeAll?: boolean } = {}) {
-    return reflexInvoke<Array<Record<string, unknown>>>(
-      "scheduler.runs",
-      params,
-    );
+    return reflexInvoke<SchedulerRun[]>("scheduler.runs", params);
   },
   stats(params: { appId?: string; includeAll?: boolean; recentLimit?: number } = {}) {
-    return reflexInvoke<Record<string, unknown>>(
-      "scheduler.stats",
-      params,
-    );
+    return reflexInvoke<SchedulerStats>("scheduler.stats", params);
   },
   runDetail(runId: string) {
-    return reflexInvoke<Record<string, unknown>>("scheduler.runDetail", { runId });
+    return reflexInvoke<SchedulerRun>("scheduler.runDetail", { runId });
   },
 } as const;
 

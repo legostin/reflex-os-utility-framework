@@ -173,17 +173,6 @@ export interface StorageListResult {
   entries: Array<{ key: string; value: unknown }>;
 }
 
-export interface SchedulerRun {
-  id: string;
-  schedule_id: string;
-  app_id?: string;
-  status?: "ok" | "error" | "running";
-  started_at_ms?: number;
-  finished_at_ms?: number;
-  error?: string;
-  [key: string]: unknown;
-}
-
 export interface PermissionRequestSummary {
   id: string;
   permissions?: string[];
@@ -192,3 +181,252 @@ export interface PermissionRequestSummary {
   status?: "pending" | "approved" | "denied";
   [key: string]: unknown;
 }
+
+// ---------------------------------------------------------------------------
+// apps.* and apps.server.* shapes
+// ---------------------------------------------------------------------------
+
+export type AppKind = "panel" | "static" | "server" | "external" | string;
+export type AppRuntime = "static" | "server" | "external" | string;
+
+export interface AppSummary {
+  id: string;
+  name?: string;
+  description?: string;
+  icon?: string;
+  kind?: AppKind;
+  runtime?: AppRuntime;
+  entry?: string;
+  /** Truthy if the app is in the trash, with the trash record id. */
+  trash_id?: string;
+  /** Bumped on every app revision. */
+  revision?: number;
+  /** True when the working tree has uncommitted edits. */
+  dirty?: boolean;
+  last_commit_message?: string;
+  linked_project_ids?: string[];
+  manifest?: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+export interface AppStatus {
+  app_id: string;
+  revision?: number;
+  dirty?: boolean;
+  last_commit_message?: string;
+  entry_ready?: boolean;
+  [key: string]: unknown;
+}
+
+export interface AppServerStatus {
+  app_id: string;
+  running: boolean;
+  port?: number;
+  pid?: number;
+  url?: string;
+  health?: "ok" | "starting" | "error" | string;
+  last_error?: string;
+  uptime_ms?: number;
+  [key: string]: unknown;
+}
+
+export interface AppServerLogEntry {
+  ts_ms?: number;
+  level?: "info" | "warn" | "error" | string;
+  source?: string;
+  message: string;
+  [key: string]: unknown;
+}
+
+export interface AppDiffResult {
+  app_id: string;
+  /** Unified diff text. May be empty when the working tree is clean. */
+  diff: string;
+}
+
+export interface AppTrashEntry {
+  trash_id: string;
+  app_id: string;
+  name?: string;
+  trashed_at_ms?: number;
+  [key: string]: unknown;
+}
+
+export type AppTemplate =
+  | "blank"
+  | "chat"
+  | "dashboard"
+  | "health-dashboard"
+  | "form"
+  | "api-client"
+  | "connected-app"
+  | "repo-wrapper"
+  | "automation"
+  | "node-server"
+  | (string & { __brand?: "app-template-extension" });
+
+// ---------------------------------------------------------------------------
+// browser.* shapes
+// ---------------------------------------------------------------------------
+
+export interface BrowserTab {
+  id: string;
+  url: string;
+  title?: string;
+  active?: boolean;
+  loading?: boolean;
+  project_id?: string;
+  [key: string]: unknown;
+}
+
+export interface BrowserOutlineNode {
+  tag?: string;
+  role?: string;
+  text?: string;
+  href?: string;
+  children?: BrowserOutlineNode[];
+  [key: string]: unknown;
+}
+
+export interface BrowserScreenshot {
+  tab_id: string;
+  /** Data URL or base64 PNG, depending on host build. */
+  image: string;
+  width?: number;
+  height?: number;
+}
+
+// ---------------------------------------------------------------------------
+// integration.* shapes (Connected App adapters)
+// ---------------------------------------------------------------------------
+
+export interface IntegrationCatalogEntry {
+  provider: string;
+  display_name?: string;
+  description?: string;
+  expected_display?: Record<string, unknown>;
+  expected_data?: Record<string, unknown>;
+  auth?: Record<string, unknown>;
+  mcp?: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+export interface IntegrationProfile {
+  integration?: Record<string, unknown>;
+  external?: Record<string, unknown>;
+  linked_project_ids?: string[];
+  app_id?: string;
+  [key: string]: unknown;
+}
+
+export interface IntegrationMcpStatus {
+  provider?: string;
+  server_name?: string;
+  configured?: boolean;
+  reachable?: boolean;
+  details?: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+export interface IntegrationMcpResult {
+  query: string;
+  text?: string;
+  data?: unknown;
+  recorded_at_ms?: number;
+  [key: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// mcp.* shapes
+// ---------------------------------------------------------------------------
+
+export interface McpServerConfig {
+  command?: string;
+  args?: string[];
+  env?: Record<string, string>;
+  url?: string;
+  cwd?: string;
+  enabled?: boolean;
+  [key: string]: unknown;
+}
+
+export interface McpServerSummary {
+  project_id: string;
+  project_name?: string;
+  server_names: string[];
+  servers?: Record<string, McpServerConfig>;
+}
+
+// ---------------------------------------------------------------------------
+// skills.* shapes
+// ---------------------------------------------------------------------------
+
+export interface SkillsByProject {
+  project_id: string;
+  project_name?: string;
+  skills: string[];
+}
+
+// ---------------------------------------------------------------------------
+// scheduler.* shapes (typed replacements for Record<string, unknown>)
+// ---------------------------------------------------------------------------
+
+export interface SchedulerRun {
+  id: string;
+  schedule_id: string;
+  app_id?: string;
+  status?: "ok" | "error" | "running" | string;
+  started_at_ms?: number;
+  finished_at_ms?: number;
+  error?: string;
+  /** Final payload of the last step, or summary text. */
+  result?: unknown;
+  [key: string]: unknown;
+}
+
+export interface SchedulerStats {
+  schedule_count?: number;
+  enabled_count?: number;
+  next_fire_at_ms?: number;
+  recent_runs?: SchedulerRun[];
+  recent_errors?: SchedulerRun[];
+  last_error?: { message?: string; ts_ms?: number };
+  [key: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// logs.* shapes
+// ---------------------------------------------------------------------------
+
+export interface LogEntry {
+  seq?: number;
+  ts_ms?: number;
+  level?: "info" | "warn" | "error" | "debug" | string;
+  source?: string;
+  message: string;
+  [key: string]: unknown;
+}
+
+// ---------------------------------------------------------------------------
+// dialog.* shapes
+// ---------------------------------------------------------------------------
+
+export interface DialogFilter {
+  name: string;
+  extensions: string[];
+}
+
+export interface DialogOpenParams {
+  title?: string;
+  defaultPath?: string;
+  multiple?: boolean;
+  filters?: DialogFilter[];
+}
+
+export interface DialogSaveParams {
+  title?: string;
+  defaultPath?: string;
+  filters?: DialogFilter[];
+}
+
+export type DialogPathResult = string | string[] | null;
