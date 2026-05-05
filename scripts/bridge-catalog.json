@@ -1,6 +1,6 @@
 {
   "sourcedFrom": "/Users/legostin/claude-projects/reflex-os/src/appBridgeCatalog.ts",
-  "generatedAt": "2026-05-04T17:27:52.236Z",
+  "generatedAt": "2026-05-05T18:14:03.599Z",
   "methods": [
     "actions.delete",
     "actions.list",
@@ -130,6 +130,13 @@
     "scheduler.setPaused",
     "scheduler.stats",
     "scheduler.upsert",
+    "secrets.delete",
+    "secrets.get",
+    "secrets.has",
+    "secrets.list",
+    "secrets.resolve",
+    "secrets.scopes",
+    "secrets.set",
     "skills.list",
     "storage.delete",
     "storage.get",

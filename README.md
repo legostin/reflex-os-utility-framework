@@ -162,6 +162,7 @@ when you want the visual kit too.
 | `mcp` | `mcp.servers`, `project.mcp.{upsert,delete}` |
 | `skills` | `skills.list`, `project.skills.{ensure,revoke}` |
 | `dialog` | `dialog.{openDirectory,openFile,saveFile}` |
+| `secrets` | `secrets.{list,get,has,set,delete,resolve,scopes}` — encrypted global + per-project store with cascade resolution. |
 
 ### Local development without Reflex
 

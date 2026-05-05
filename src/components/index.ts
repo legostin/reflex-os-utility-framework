@@ -79,6 +79,13 @@ export { NotifyButton } from "./bricks/NotifyButton";
 export type { NotifyButtonProps } from "./bricks/NotifyButton";
 export { LogViewer } from "./bricks/LogViewer";
 export type { LogViewerProps } from "./bricks/LogViewer";
+export { SecretsManager } from "./bricks/SecretsManager";
+export type { SecretsManagerProps } from "./bricks/SecretsManager";
+export { RequireSecrets } from "./bricks/RequireSecrets";
+export type {
+  RequireSecretsProps,
+  RequiredSecretSpec,
+} from "./bricks/RequireSecrets";
 export { SchedulesList } from "./bricks/SchedulesList";
 export type { SchedulesListProps } from "./bricks/SchedulesList";
 export { SchedulerRunsLog } from "./bricks/SchedulerRunsLog";

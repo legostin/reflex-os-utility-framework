@@ -49,6 +49,12 @@ export {
   useSchedulerRuns,
   useSchedulerStats,
 } from "./useScheduler";
+export { useSecretScopes, useSecretValue, useSecrets } from "./useSecrets";
+export type {
+  UseSecretValueOptions,
+  UseSecretValueResult,
+  UseSecretsOptions,
+} from "./useSecrets";
 export { useFs, useProjectFiles } from "./useFiles";
 export {
   useClipboard,

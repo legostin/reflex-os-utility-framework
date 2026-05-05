@@ -58,6 +58,15 @@ export type { MemoryClient } from "./memory";
 export { network, permissions } from "./permissions";
 export type { NetworkClient, PermissionsClient } from "./permissions";
 
+export { secrets } from "./secrets";
+export type {
+  SecretMetadata,
+  SecretsClient,
+  SecretsScopeDescriptor,
+  SecretScope,
+  SecretValue,
+} from "./secrets";
+
 export { skills } from "./skills";
 export type { SkillsClient } from "./skills";
 
@@ -81,6 +90,7 @@ import { actions, manifest, scheduler, widgets } from "./manifest";
 import { mcp } from "./mcp";
 import { memory } from "./memory";
 import { network, permissions } from "./permissions";
+import { secrets } from "./secrets";
 import { skills } from "./skills";
 import { storage } from "./storage";
 import { system } from "./system";
@@ -106,6 +116,7 @@ export const bridge = {
   projectFiles,
   projects,
   scheduler,
+  secrets,
   skills,
   storage,
   system,
